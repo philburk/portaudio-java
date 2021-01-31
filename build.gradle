@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+    archiveBaseName = 'jportaudio'
+    archiveVersion =  '0.1.0'
+}
