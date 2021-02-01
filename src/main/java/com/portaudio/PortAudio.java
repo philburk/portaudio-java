@@ -26,13 +26,13 @@
  */
 
 /*
- * The text above constitutes the entire PortAudio license; however, 
+ * The text above constitutes the entire PortAudio license; however,
  * the PortAudio community also makes the following non-binding requests:
  *
  * Any person wishing to distribute modifications to the Software is
  * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
+ * they can be incorporated into the canonical version. It is also
+ * requested that these non-binding requests be included along with the
  * license above.
  */
 
@@ -46,28 +46,29 @@ package com.portaudio;
 /**
  * Java methods that call PortAudio via JNI. This is a portable audio I/O
  * library that can be used as an alternative to JavaSound.
- * 
+ *
  * Please see the PortAudio documentation for a full explanation.
- * 
+ *
  * http://portaudio.com/docs/
  * http://portaudio.com/docs/v19-doxydocs/portaudio_8h.html
- * 
+ *
  * This Java binding does not support audio callbacks because an audio callback
  * should never block. Calling into a Java virtual machine might block for
  * garbage collection or synchronization. So only the blocking read/write mode
  * is supported.
- * 
+ *
  * @see BlockingStream
  * @see DeviceInfo
  * @see HostApiInfo
  * @see StreamInfo
  * @see StreamParameters
- * 
+ *
  * @author Phil Burk
- * 
+ *
  */
 public class PortAudio
 {
+    public static final String VERSION = "0.1.0";
 	public final static int FLAG_CLIP_OFF = (1 << 0);
 	public final static int FLAG_DITHER_OFF = (1 << 1);
 
@@ -114,10 +115,9 @@ public class PortAudio
 		}
 		else
 		{
-			System.loadLibrary( "jportaudio" );
+			System.loadLibrary( "jportaudio_0_1_0" );
 		}
-		System.out.println( "---- JPortAudio version " + getVersion() + ", "
-				+ getVersionText() );
+		System.out.println( "---- JPortAudio " + VERSION + ", " + getVersionText() );
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class PortAudio
 			int framesPerBuffer, int flags );
 
 	/**
-	 * 
+	 *
 	 * @param inputStreamParameters
 	 *            input description, may be null
 	 * @param outputStreamParameters

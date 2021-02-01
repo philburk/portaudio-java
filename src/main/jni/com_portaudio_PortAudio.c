@@ -26,13 +26,13 @@
  */
 
 /*
- * The text above constitutes the entire PortAudio license; however, 
+ * The text above constitutes the entire PortAudio license; however,
  * the PortAudio community also makes the following non-binding requests:
  *
  * Any person wishing to distribute modifications to the Software is
  * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
+ * they can be incorporated into the canonical version. It is also
+ * requested that these non-binding requests be included along with the
  * license above.
  */
 
@@ -109,7 +109,7 @@ JNIEXPORT void JNICALL Java_com_portaudio_PortAudio_getDeviceInfo
 	const PaDeviceInfo *info;
 	     /* Get a reference to obj's class */
 	jclass cls = (*env)->GetObjectClass(env, deviceInfo);
- 
+
 	info = Pa_GetDeviceInfo( index );
 	if( info == NULL )
 	{
@@ -176,7 +176,7 @@ JNIEXPORT void JNICALL Java_com_portaudio_PortAudio_getHostApiInfo
 	const PaHostApiInfo *info;
 	     /* Get a reference to obj's class */
 	jclass cls = (*env)->GetObjectClass(env, hostApiInfo);
- 
+
 	info = Pa_GetHostApiInfo( index );
 	if( info == NULL )
 	{
@@ -239,10 +239,10 @@ JNIEXPORT jint JNICALL Java_com_portaudio_PortAudio_isFormatSupported
 {
 	PaStreamParameters myInParams, *paInParams;
 	PaStreamParameters myOutParams, *paOutParams;
-	
+
 	paInParams = jpa_FillStreamParameters(  env, inParams, &myInParams );
 	paOutParams = jpa_FillStreamParameters(  env, outParams, &myOutParams );
-	
+
 	return Pa_IsFormatSupported( paInParams, paOutParams, sampleRate );
 
 }
@@ -259,7 +259,7 @@ JNIEXPORT void JNICALL Java_com_portaudio_PortAudio_openStream
 	PaStreamParameters myInParams, *paInParams;
 	PaStreamParameters myOutParams, *paOutParams;
 	PaStream *stream;
-	
+
 	paInParams = jpa_FillStreamParameters(  env, inParams, &myInParams );
 	paOutParams = jpa_FillStreamParameters(  env, outParams, &myOutParams );
 	err = Pa_OpenStream( &stream, paInParams, paOutParams, sampleRate, framesPerBuffer, flags, NULL, NULL );
