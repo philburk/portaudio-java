@@ -4,8 +4,10 @@ project(jportaudio_project)
 
 include_directories($ENV{JAVA_HOME}/include)
 include_directories($ENV{JAVA_HOME}/include/darwin)
+
 # for installed portaudio.h
 include_directories(/usr/local/include)
+
 #link_directories(/usr/local/lib)
 link_directories(../portaudio/pagit)
 link_directories(../portaudio/pagit/lib)

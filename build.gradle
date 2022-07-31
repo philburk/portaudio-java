@@ -1,4 +1,8 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'application'
+    id 'maven-publish'
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -6,4 +10,19 @@ targetCompatibility = 1.8
 jar {
     archiveBaseName = 'jportaudio'
     archiveVersion =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+
+    implementation fileTree(dir: 'libs', include: '*.jar')
+}
+
+test {
+    useJUnitPlatform()
 }
