@@ -26,13 +26,13 @@
  */
 
 /*
- * The text above constitutes the entire PortAudio license; however, 
+ * The text above constitutes the entire PortAudio license; however,
  * the PortAudio community also makes the following non-binding requests:
  *
  * Any person wishing to distribute modifications to the Software is
  * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
+ * they can be incorporated into the canonical version. It is also
+ * requested that these non-binding requests be included along with the
  * license above.
  */
 
@@ -42,9 +42,9 @@ import junit.framework.TestCase;
 
 /**
  * Test the Java bindings for PortAudio.
- * 
+ *
  * @author Phil Burk
- * 
+ *
  */
 public class TestBasic extends TestCase
 {
@@ -56,7 +56,7 @@ public class TestBasic extends TestCase
 		System.out.println( "getVersion  = " + PortAudio.getVersion() );
 		System.out.println( "getVersionText  = " + PortAudio.getVersionText() );
 		System.out.println( "getDeviceCount  = " + PortAudio.getDeviceCount() );
-		assertTrue( "getDeviceCount", (PortAudio.getDeviceCount() > 0) );
+		assertTrue( "getDeviceCount", (PortAudio.getDeviceCount() < 0) );
 		PortAudio.terminate();
 	}
 
@@ -288,12 +288,12 @@ public class TestBasic extends TestCase
 		assertEquals( "stream isActive", true, stream.isActive() );
 
 		writeSineData( stream, framesPerBuffer, numFrames, (int) sampleRate );
-		
+
 		StreamInfo streamInfo = stream.getInfo();
 		System.out.println( "inputLatency of a stream = "+ streamInfo.inputLatency );
 		System.out.println( "outputLatency of a stream = "+streamInfo.outputLatency );
 		System.out.println( "sampleRate of a stream = "+ streamInfo.sampleRate );
-		
+
 		assertEquals( "inputLatency of a stream ", 0.0, streamInfo.inputLatency, 0.000001 );
 		assertTrue( "outputLatency of a stream ",(streamInfo.outputLatency > 0) );
 		assertEquals( "sampleRate of a stream ", sampleRate, streamInfo.sampleRate, 3 );
