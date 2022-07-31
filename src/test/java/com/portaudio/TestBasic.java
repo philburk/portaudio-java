@@ -38,7 +38,14 @@
 
 package com.portaudio;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test the Java bindings for PortAudio.
@@ -46,25 +53,48 @@ import junit.framework.TestCase;
  * @author Phil Burk
  *
  */
-public class TestBasic extends TestCase
+public class TestBasic
 {
 
+    public void claimTrue(String message, boolean claim) {
+        assertTrue(claim, message);
+    }
+
+    public void claimEquals(String message, int x, int y) {
+        assertEquals(x, y, message);
+    }
+    public void claimEquals(String message, boolean x, boolean y) {
+        assertEquals(x, y, message);
+    }
+    public void claimEquals(String message, double x, double y, double tolerance) {
+        assertEquals(x, y, tolerance, message);
+    }
+
+    @Test
 	public void testDeviceCount()
 	{
 		PortAudio.initialize();
-		assertTrue( "version invalid", (PortAudio.getVersion() > 0) );
+		assertTrue((PortAudio.getVersion() > 0),  "version invalid" );
 		System.out.println( "getVersion  = " + PortAudio.getVersion() );
 		System.out.println( "getVersionText  = " + PortAudio.getVersionText() );
 		System.out.println( "getDeviceCount  = " + PortAudio.getDeviceCount() );
-		assertTrue( "getDeviceCount", (PortAudio.getDeviceCount() < 0) );
+		assertTrue((PortAudio.getDeviceCount() > 0), "getDeviceCount");
 		PortAudio.terminate();
 	}
 
+    @Test
+    public void testBasicJava() {
+        int x = 7;
+        int y = 7;
+        assertEquals(x, y);
+    }
+
+    @Test
 	public void testListDevices()
 	{
 		PortAudio.initialize();
 		int count = PortAudio.getDeviceCount();
-		assertTrue( "getDeviceCount", (count > 0) );
+		assertTrue((count > 0), "getDeviceCount");
 		for( int i = 0; i < count; i++ )
 		{
 			DeviceInfo info = PortAudio.getDeviceInfo( i );
@@ -86,10 +116,11 @@ public class TestBasic extends TestCase
 			System.out.printf( "  defaultHighOutputLatency = %3d msec\n",
 					((int) (info.defaultHighOutputLatency * 1000)) );
 
-			assertTrue( "some channels",
-					(info.maxOutputChannels + info.maxInputChannels) > 0 );
-			assertTrue( "not too many channels", (info.maxInputChannels < 64) );
-			assertTrue( "not too many channels", (info.maxOutputChannels < 64) );
+			assertTrue(
+					(info.maxOutputChannels + info.maxInputChannels) > 0,
+					"some channels");
+			assertTrue((info.maxInputChannels < 64), "not too many channels");
+			assertTrue((info.maxOutputChannels < 64), "not too many channels");
 		}
 
 		System.out.println( "defaultInput  = "
@@ -100,6 +131,7 @@ public class TestBasic extends TestCase
 		PortAudio.terminate();
 	}
 
+    @Test
 	public void testHostApis()
 	{
 		PortAudio.initialize();
@@ -119,22 +151,23 @@ public class TestBasic extends TestCase
 									apiDeviceIndex );
 					DeviceInfo deviceInfo = PortAudio
 							.getDeviceInfo( deviceIndex );
-					assertEquals( "host api must match up", hostApiIndex,
+					claimEquals( "host api must match up", hostApiIndex,
 							deviceInfo.hostApi );
 				}
 				validApiCount++;
 			}
 		}
 
-		assertEquals( "host api counts", PortAudio.getHostApiCount(),
+		claimEquals( "host api counts", PortAudio.getHostApiCount(),
 				validApiCount );
 	}
 
+    @Test
 	public void testListHostApis()
 	{
 		PortAudio.initialize();
 		int count = PortAudio.getHostApiCount();
-		assertTrue( "getHostApiCount", (count > 0) );
+		claimTrue( "getHostApiCount", (count > 0) );
 		for( int i = 0; i < count; i++ )
 		{
 			HostApiInfo info = PortAudio.getHostApiInfo( i );
@@ -147,7 +180,7 @@ public class TestBasic extends TestCase
 					+ info.defaultInputDevice );
 			System.out.println( "  defaultOutputDevice = "
 					+ info.defaultOutputDevice );
-			assertTrue( "some devices", info.deviceCount > 0 );
+			claimTrue( "some devices", info.deviceCount > 0 );
 		}
 
 		System.out.println( "------\ndefaultHostApi = "
@@ -155,6 +188,7 @@ public class TestBasic extends TestCase
 		PortAudio.terminate();
 	}
 
+    @Test
 	public void testCheckFormat()
 	{
 		PortAudio.initialize();
@@ -163,12 +197,12 @@ public class TestBasic extends TestCase
 		int result = PortAudio
 				.isFormatSupported( null, streamParameters, 44100 );
 		System.out.println( "isFormatSupported returns " + result );
-		assertEquals( "default output format", 0, result );
+		claimEquals( "default output format", 0, result );
 		// Try crazy channelCount
 		streamParameters.channelCount = 8765;
 		result = PortAudio.isFormatSupported( null, streamParameters, 44100 );
 		System.out.println( "crazy isFormatSupported returns " + result );
-		assertTrue( "default output format", (result < 0) );
+		claimTrue( "default output format", (result < 0) );
 		PortAudio.terminate();
 	}
 
@@ -194,6 +228,7 @@ public class TestBasic extends TestCase
 		}
 	}
 
+    @Test
 	public void testStreamError()
 	{
 		PortAudio.initialize();
@@ -219,8 +254,8 @@ public class TestBasic extends TestCase
 			e.printStackTrace();
 		}
 
-		assertTrue( "caught no exception", (caught != null) );
-		assertTrue( "exception should say stream is stopped", caught
+		claimTrue( "caught no exception", (caught != null) );
+		claimTrue( "exception should say stream is stopped", caught
 				.getMessage().contains( "stopped" ) );
 
 		// Try to write null data.
@@ -233,8 +268,8 @@ public class TestBasic extends TestCase
 			caught = e;
 			e.printStackTrace();
 		}
-		assertTrue( "caught no exception", (caught != null) );
-		assertTrue( "exception should say stream is stopped", caught
+		claimTrue( "caught no exception", (caught != null) );
+		claimTrue( "exception should say stream is stopped", caught
 				.getMessage().contains( "null" ) );
 
 		// Try to write short data to a float stream.
@@ -251,8 +286,8 @@ public class TestBasic extends TestCase
 			e.printStackTrace();
 		}
 
-		assertTrue( "caught no exception", (caught != null) );
-		assertTrue( "exception should say tried to", caught.getMessage()
+		claimTrue( "caught no exception", (caught != null) );
+		claimTrue( "exception should say tried to", caught.getMessage()
 				.contains( "Tried to write short" ) );
 
 		stream.close();
@@ -260,6 +295,7 @@ public class TestBasic extends TestCase
 		PortAudio.terminate();
 	}
 
+    @Test
 	public void checkBlockingWriteFloat( int deviceId, double sampleRate )
 	{
 		StreamParameters streamParameters = new StreamParameters();
@@ -274,18 +310,18 @@ public class TestBasic extends TestCase
 		int flags = 0;
 		BlockingStream stream = PortAudio.openStream( null, streamParameters,
 				(int) sampleRate, framesPerBuffer, flags );
-		assertTrue( "got default stream", stream != null );
+		claimTrue( "got default stream", stream != null );
 
-		assertEquals( "stream isStopped", true, stream.isStopped() );
-		assertEquals( "stream isActive", false, stream.isActive() );
+		claimEquals( "stream isStopped", true, stream.isStopped() );
+		claimEquals( "stream isActive", false, stream.isActive() );
 
 		int numFrames = 80000;
 		double expected = ((double)numFrames) / sampleRate;
 		stream.start();
 		long startTime = System.currentTimeMillis();
 		double startStreamTime = stream.getTime();
-		assertEquals( "stream isStopped", false, stream.isStopped() );
-		assertEquals( "stream isActive", true, stream.isActive() );
+		claimEquals( "stream isStopped", false, stream.isStopped() );
+		claimEquals( "stream isActive", true, stream.isActive() );
 
 		writeSineData( stream, framesPerBuffer, numFrames, (int) sampleRate );
 
@@ -294,9 +330,9 @@ public class TestBasic extends TestCase
 		System.out.println( "outputLatency of a stream = "+streamInfo.outputLatency );
 		System.out.println( "sampleRate of a stream = "+ streamInfo.sampleRate );
 
-		assertEquals( "inputLatency of a stream ", 0.0, streamInfo.inputLatency, 0.000001 );
-		assertTrue( "outputLatency of a stream ",(streamInfo.outputLatency > 0) );
-		assertEquals( "sampleRate of a stream ", sampleRate, streamInfo.sampleRate, 3 );
+		claimEquals( "inputLatency of a stream ", 0.0, streamInfo.inputLatency, 0.000001 );
+		claimTrue( "outputLatency of a stream ",(streamInfo.outputLatency > 0) );
+		claimEquals( "sampleRate of a stream ", sampleRate, streamInfo.sampleRate, 3 );
 
 		double endStreamTime = stream.getTime();
 		stream.stop();
@@ -306,18 +342,19 @@ public class TestBasic extends TestCase
 		System.out.println( "endStreamTime = " + endStreamTime );
 		double elapsedStreamTime = endStreamTime - startStreamTime;
 		System.out.println( "elapsedStreamTime = " + elapsedStreamTime );
-		assertTrue( "elapsedStreamTime: " + elapsedStreamTime,
+		claimTrue( "elapsedStreamTime: " + elapsedStreamTime,
 				(elapsedStreamTime > 0.0) );
-		assertEquals( "elapsedStreamTime: ", expected, elapsedStreamTime, 0.10 );
+		claimEquals( "elapsedStreamTime: ", expected, elapsedStreamTime, 0.10 );
 
-		assertEquals( "stream isStopped", true, stream.isStopped() );
-		assertEquals( "stream isActive", false, stream.isActive() );
+		claimEquals( "stream isStopped", true, stream.isStopped() );
+		claimEquals( "stream isActive", false, stream.isActive() );
 		stream.close();
 
 		double elapsed = (stopTime - startTime) / 1000.0;
-		assertEquals( "elapsed time to play", expected, elapsed, 0.20 );
+		claimEquals( "elapsed time to play", expected, elapsed, 0.20 );
 	}
 
+    @Test
 	public void testBlockingWriteFloat()
 	{
 		PortAudio.initialize();
@@ -387,6 +424,7 @@ public class TestBasic extends TestCase
 		}
 	}
 
+    @Test
 	public void testBlockingWriteShort()
 	{
 		PortAudio.initialize();
@@ -404,7 +442,7 @@ public class TestBasic extends TestCase
 		int flags = 0;
 		BlockingStream stream = PortAudio.openStream( null, streamParameters,
 				44100, framesPerBuffer, flags );
-		assertTrue( "got default stream", stream != null );
+		claimTrue( "got default stream", stream != null );
 
 		int numFrames = 80000;
 		stream.start();
@@ -416,15 +454,17 @@ public class TestBasic extends TestCase
 
 		double elapsed = (stopTime - startTime) / 1000.0;
 		double expected = numFrames / 44100.0;
-		assertEquals( "elapsed time to play", expected, elapsed, 0.20 );
+		claimEquals( "elapsed time to play", expected, elapsed, 0.20 );
 		PortAudio.terminate();
 	}
 
+    @Test
 	public void testRecordPlayFloat() throws InterruptedException
 	{
 		checkRecordPlay( PortAudio.FORMAT_FLOAT_32 );
 	}
 
+    @Test
 	public void testRecordPlayShort() throws InterruptedException
 	{
 		checkRecordPlay( PortAudio.FORMAT_INT_16 );
@@ -477,7 +517,7 @@ public class TestBasic extends TestCase
 		Thread.sleep( 100 );
 		int availableToRead = inStream.getReadAvailable();
 		System.out.println( "availableToRead =  " + availableToRead );
-		assertTrue( "getReadAvailable ", availableToRead > 0 );
+		claimTrue( "getReadAvailable ", availableToRead > 0 );
 
 		inStream.stop();
 		inStream.close();
@@ -493,20 +533,20 @@ public class TestBasic extends TestCase
 
 		BlockingStream outStream = PortAudio.openStream( null, outParameters,
 				sampleRate, framesPerBuffer, flags );
-		assertTrue( "got default stream", outStream != null );
+		claimTrue( "got default stream", outStream != null );
 
-		assertEquals( "inStream isActive", false, inStream.isActive() );
+		claimEquals( "inStream isActive", false, inStream.isActive() );
 
 		outStream.start();
 		Thread.sleep( 100 );
 		int availableToWrite = outStream.getWriteAvailable();
 		System.out.println( "availableToWrite =  " + availableToWrite );
-		assertTrue( "getWriteAvailable ", availableToWrite > 0 );
+		claimTrue( "getWriteAvailable ", availableToWrite > 0 );
 
 		System.out.println( "inStream = " + inStream );
 		System.out.println( "outStream = " + outStream );
-		assertEquals( "inStream isActive", false, inStream.isActive() );
-		assertEquals( "outStream isActive", true, outStream.isActive() );
+		claimEquals( "inStream isActive", false, inStream.isActive() );
+		claimEquals( "outStream isActive", true, outStream.isActive() );
 		if( sampleFormat == PortAudio.FORMAT_FLOAT_32 )
 		{
 			outStream.write( floatBuffer, numFrames );

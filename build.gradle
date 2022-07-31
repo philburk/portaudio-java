@@ -1,6 +1,4 @@
-plugins {
-    id 'java'
-}
+apply plugin: 'java'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -16,11 +14,15 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
-
-    implementation fileTree(dir: 'libs', include: '*.jar')
+	testImplementation(platform('org.junit:junit-bom:5.9.0'))
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
 }
 
 test {
     useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+
+        showStandardStreams = true
+	}
 }
