@@ -55,7 +55,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class TestBasic
 {
-
+    // TODO replace these with the JUnit5 calls.
     public void claimTrue(String message, boolean claim) {
         assertTrue(claim, message);
     }
@@ -251,7 +251,6 @@ public class TestBasic
 		} catch( Throwable e )
 		{
 			caught = e;
-			e.printStackTrace();
 		}
 
 		claimTrue( "caught no exception", (caught != null) );
@@ -266,7 +265,6 @@ public class TestBasic
 		} catch( Throwable e )
 		{
 			caught = e;
-			e.printStackTrace();
 		}
 		claimTrue( "caught no exception", (caught != null) );
 		claimTrue( "exception should say stream is stopped", caught
@@ -283,7 +281,6 @@ public class TestBasic
 		} catch( Throwable e )
 		{
 			caught = e;
-			e.printStackTrace();
 		}
 
 		claimTrue( "caught no exception", (caught != null) );
@@ -295,7 +292,6 @@ public class TestBasic
 		PortAudio.terminate();
 	}
 
-    @Test
 	public void checkBlockingWriteFloat( int deviceId, double sampleRate )
 	{
 		StreamParameters streamParameters = new StreamParameters();
