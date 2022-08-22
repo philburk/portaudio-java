@@ -25,6 +25,12 @@ or from the [website](http://files.portaudio.com/download.html).
 
 ### Build JPortAudio native library
 
+On MacOS, you may need to tell CMAKE where to look for stdio.h.
+
+    export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+    
+This should work on Linux and Mac.
+
     export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/lib
     cmake .
     make install
