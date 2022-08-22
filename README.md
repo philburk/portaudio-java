@@ -1,6 +1,6 @@
 # JPortAudio - audio I/O for Java
 
-JPortAudio is a Java wrapper for the PortAudio audio library.
+JPortAudio is a Java wrapper for the [PortAudio](https://github.com/PortAudio/portaudio) audio library.
 It provides blocking read/write streams.
 JPortAudio can provide high resolution, eg. FLOAT data
 and multi-channel streams that JavaSound does not support.
