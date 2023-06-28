@@ -4,6 +4,7 @@ project(jportaudio_project)
 
 include_directories($ENV{JAVA_HOME}/include)
 include_directories($ENV{JAVA_HOME}/include/darwin)
+include_directories($ENV{JAVA_HOME}/include/linux)
 
 # for installed portaudio.h
 include_directories(/usr/local/include)
