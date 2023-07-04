@@ -19,6 +19,7 @@ You may have an old installation of JPortAudio. You can remove it.
 You can download PortAudio from [GitHub](https://github.com/PortAudio/portaudio)
 or from the [website](http://files.portaudio.com/download.html).
 
+    cd portaudio
     ./configure
     make clean
     make install
@@ -31,10 +32,13 @@ On MacOS, you may need to tell CMAKE where to look for stdio.h.
     
 This should work on Linux and Mac.
 
+    cd portaudio-java
     export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/lib
     cmake .
     make install
     ls -l /usr/local/lib/lib*portaudio*
+
+You might need to use "sudo make install".
 
 ### Build JPortAudio JAR file
 
@@ -45,6 +49,6 @@ To use JPortAudio with your projects or IDE, include the JAR file in your classp
 
 ### Test JPortAudio JAR file
 
-Be ready to turn down your speakers. It will play some sine tones tha may be loud.
+Be ready to turn down your speakers. It will play some sine tones that may be loud.
 
     ./gradlew clean test
