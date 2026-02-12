@@ -5,6 +5,10 @@ It provides blocking read/write streams.
 JPortAudio can provide high resolution, eg. FLOAT data
 and multi-channel streams that JavaSound does not support.
 
+## License
+
+JPortAudio use the same license as PortAudio. So if you can use PortAudio, you can use JPortAudio.
+
 ## Building and testing JPortAudio
 
 ### Cleaning out Old JPortAudio on MacOS
