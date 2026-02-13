@@ -154,7 +154,7 @@ JNIEXPORT jboolean JNICALL Java_com_portaudio_BlockingStream_readFloats
  * Signature: ([SI)Z
  */
 JNIEXPORT jboolean JNICALL Java_com_portaudio_BlockingStream_writeShorts
-  (JNIEnv *env, jobject blockingStream, jfloatArray buffer, jint numFrames)
+  (JNIEnv *env, jobject blockingStream, jshortArray buffer, jint numFrames)
 {
 	jshort *carr;
 	jint err;
@@ -191,7 +191,7 @@ JNIEXPORT jboolean JNICALL Java_com_portaudio_BlockingStream_writeShorts
  * Signature: ([SI)Z
  */
 JNIEXPORT jboolean JNICALL Java_com_portaudio_BlockingStream_readShorts
-  (JNIEnv *env, jobject blockingStream, jfloatArray buffer, jint numFrames)
+  (JNIEnv *env, jobject blockingStream, jshortArray buffer, jint numFrames)
 {
 	jshort *carr;
 	jint err;
